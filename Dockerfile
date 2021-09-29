@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:latest
 MAINTAINER Justin Henderson "justin@hasecuritysolutions.com"
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -25,8 +25,7 @@ RUN debconf-set-selections <<< "postfix postfix/mailname string smtp.office365.c
     sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng/syslog-ng.conf && \
     sed -i '/^smtp_tls_CAfile =/d' /etc/postfix/main.cf && \
     sed -i 's/^inet_protocols =.*/inet_protocols = ipv4/' /etc/postfix/main.cf && \
-    apt-get install -q -y \
-        supervisor
+    apt-get install -q -y supervisor
 
 COPY supervisord.conf /etc/supervisor/
 COPY init.sh /opt/init.sh
